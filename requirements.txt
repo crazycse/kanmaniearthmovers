@@ -1,0 +1,4 @@
+pathtools
+streamlit
+fpdf
+Pillow==6.1.0
