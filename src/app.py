@@ -3,7 +3,7 @@ import streamlit as st
 import datetime
 
 from PIL import Image
-image = Image.open('logo.png')
+image = Image.open('https://raw.githubusercontent.com/crazycse/kanmaniearthmovers/master/src/logo.png')
 
 import os
 import base64
