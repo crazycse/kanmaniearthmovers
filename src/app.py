@@ -1,9 +1,13 @@
 from fpdf import Template
 import streamlit as st
 import datetime
-
 from PIL import Image
-image = Image.open('https://raw.githubusercontent.com/crazycse/kanmaniearthmovers/master/src/logo.png')
+
+import requests
+from io import BytesIO
+url='http://www.pngall.com/wp-content/uploads/2/JCB-PNG-Image-HD.png'
+response = requests.get(url)
+image = Image.open(BytesIO(response.content))
 
 import os
 import base64
@@ -80,7 +84,7 @@ if v!='' and t!='' and r!='':
     f["c_name"]="Mr."+c_n+"("+c_no+")"
     f["date"]=str(datetime.datetime.now())[:-7]
     f["address1"]="NH Main Road , Perumanallur"
-    f["company_logo"] = "logo.png"
+    f["company_logo"] = "https://raw.githubusercontent.com/crazycse/kanmaniearthmovers/master/src/logo.png"
     f["bata"]=" "*41+"Bata"+" "*63+bata
     f["Phone"]="Contact:9443567491,9443567490"
     f["mtitle"]="Date                                Particulars                  Time         Rate          Amount"
