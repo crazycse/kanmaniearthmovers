@@ -12,7 +12,7 @@ image = Image.open(BytesIO(response.content))
 import os
 import base64
 
-
+import hashlib
 
 
 
@@ -28,6 +28,18 @@ def get_binary_file_downloader_html(bin_file, file_label='File'):
 st.title('Kanmani Earth movers')
 
 st.image(image, caption="KEM",use_column_width=True)
+
+c_n=st.text_input("Name",'')
+c_no=st.text_input("Contact",'')
+v=list(st.text_input("Vechicle", '').split())
+t=list(map(str,st.text_input("time", '').split()))
+r=list(map(int,st.text_input("rate", '').split()))
+bata=st.text_input("Bata",'')
+
+temp1=c_n+str(sum(r))
+result = hashlib.sha224(temp1.encode())
+temp1= result.hexdigest()
+temp=''.join([i for i in temp1 if i.isnumeric()])[:15]
 #this will define the ELEMENTS that will compose the template. 
 elements = [
     { 'name': 'company_logo', 'type': 'I', 'x1': 20.0, 'y1': 17.0, 'x2': 48.0, 'y2': 30.0, 'font': None, 'size': 0.0, 'bold': 0, 'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'I', 'text': 'logo', 'priority': 2, },
@@ -47,15 +59,10 @@ elements = [
     { 'name': 'mline4', 'type': 'L', 'x1': 130.0, 'y1': 80.0, 'x2': 130.0, 'y2': 160.0, 'font': 'Arial', 'size': 0, 'bold': 0, 'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'I', 'text': None, 'priority': 3, },
     { 'name': 'mline5', 'type': 'L', 'x1': 150.0, 'y1': 80.0, 'x2': 150.0, 'y2': 160.0, 'font': 'Arial', 'size': 0, 'bold': 0, 'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'I', 'text': None, 'priority': 3, },
     { 'name': 'mtitle', 'type': 'T', 'x1': 25.0, 'y1': 125.5, 'x2': 115.0, 'y2': 47.5, 'font': 'Arial', 'size': 12.0, 'bold': 0, 'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'I', 'text': '', 'priority': 2, },
-    { 'name': 'barcode', 'type': 'BC', 'x1': 20.0, 'y1': 246.5, 'x2': 140.0, 'y2': 254.0, 'font': 'Interleaved 2of5 NT', 'size': 0.75, 'bold': 0, 'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'I', 'text': '9443567491', 'priority': 3, },
+    { 'name': 'barcode', 'type': 'BC', 'x1': 20.0, 'y1': 246.5, 'x2': 140.0, 'y2': 254.0, 'font': 'Interleaved 2of5 NT', 'size': 0.75, 'bold': 0, 'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'I', 'text': temp , 'priority': 3, },
     { 'name': 'total', 'type': 'T', 'x1': 25.0, 'y1': 300.5, 'x2': 115.0, 'y2': 47.5, 'font': 'Arial', 'size': 12.0, 'bold': 0, 'italic': 0, 'underline': 0, 'foreground': 0, 'background': 0, 'align': 'I', 'text': '', 'priority': 2, },
 ]
-c_n=st.text_input("Name",'')
-c_no=st.text_input("Contact",'')
-v=list(st.text_input("Vechicle", '').split())
-t=list(map(str,st.text_input("time", '').split()))
-r=list(map(int,st.text_input("rate", '').split()))
-bata=st.text_input("Bata",'')
+
 s=[]
 if v!='' and t!='' and r!='':
     x=155.0
@@ -76,7 +83,7 @@ if v!='' and t!='' and r!='':
     su=int(bata)
     for i in s:
         su=su+i[3]
-        f[i[0]]="29042000"+" "*25+str(i[0])+" "*(35-len(str(i[0]))-3)+str(i[1])+"           "+str(i[2])+" "*(17-len(str(i[2]))-3)+str(round(i[3],2))
+        f[i[0]]=str(datetime.datetime.now())[:10]+" "*23+str(i[0])+" "*(35-len(str(i[0]))-3)+str(i[1])+"           "+str(i[2])+" "*(17-len(str(i[2]))-3)+str(round(i[3],2))
 
     #we FILL some of the fields of the template with the information we want
     #note we access the elements treating the template instance as a "dict"
